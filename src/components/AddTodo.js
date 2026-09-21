@@ -1,9 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function AddTodo({ setTodos }) {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (message !== '') {
+      const timer = setTimeout(() => {
+        setMessage('');
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const addTodo = () => {
     if (title.trim() === '' || description.trim() === '') {
@@ -22,10 +33,14 @@ function AddTodo({ setTodos }) {
 
     setTitle('');
     setDescription('');
+    setMessage('Todo added successfully!');
   };
 
   return (
     <div className="add-todo">
+
+      {message && <p>{message}</p>}
+
       <input
         type="text"
         placeholder="Enter title"
@@ -41,6 +56,7 @@ function AddTodo({ setTodos }) {
       />
 
       <button onClick={addTodo}>Add Todo</button>
+
     </div>
   );
 }
