@@ -1,12 +1,18 @@
 import { useState } from 'react';
-
 import './App.css';
 
 import Header from './components/Header';
-
 import Todos from './components/Todos';
-
 import AddTodo from './components/AddTodo';
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom';
+
+import About from './pages/About';
 
 function App() {
 
@@ -32,11 +38,35 @@ function App() {
   ]);
 
   return (
-    <div className="todo-container">
-      <Header />
-      <AddTodo setTodos={setTodos} />
-      <Todos todos={todos} setTodos={setTodos} />
-    </div>
+    <BrowserRouter>
+
+      <nav>
+        <Link to="/">Home</Link>
+        {' | '}
+        <Link to="/about">About</Link>
+      </nav>
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={
+            <div className="todo-container">
+              <Header />
+              <AddTodo setTodos={setTodos} />
+              <Todos todos={todos} setTodos={setTodos} />
+            </div>
+          }
+        />
+
+        <Route
+          path="/about"
+          element={<About />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 
